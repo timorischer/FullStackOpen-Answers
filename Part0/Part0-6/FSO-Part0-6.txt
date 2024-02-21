@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note over browser: Event handler calls e.reventDefault()
+    Note over browser: Event handler creates new note with form content and current timestamp
+    Note over browser: note list gets re-rendered
+
+    browser ->> server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa as JSON string
+    activate server
+    Note over server: new note object created with POST content added to array
+    server -->> browser: 201 Created
