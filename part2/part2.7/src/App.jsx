@@ -12,14 +12,14 @@ const App = (props) => {
   const addName = (event) => {
     event.preventDefault()
     console.log('button clicked', event.target)
+    const nameObject = {
+      name: newName
+      }
     if (
-      persons.filter((person) => JSON.stringify(person.name) === newName)) {
+      persons.find((person) => person.name === nameObject.name)) {
         alert(`${newName} is already added to the phonebook`)
       } 
     else {
-      const nameObject = {
-      name: newName
-      }
       setPersons(persons.concat(nameObject))
       setNewName('')
       console.log('persons is now:', persons)
