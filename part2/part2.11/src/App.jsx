@@ -1,18 +1,16 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import Filter from './components/Filter'
+import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import Search from './components/Search'
-import Person from './components/Person'
-
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
-  const [newPerson, setNewPerson] = useState('')
+  const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('')
 
   const hook = () => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
@@ -20,29 +18,32 @@ const App = () => {
         setPersons(response.data)
       })
   }
-  useEffect(hook, [])
+  console.log('rendering', persons.length, 'persons')
 
+  useEffect(hook, [])
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.find((person) => person.name === newPerson)) {
-      alert(`${newPerson} already added to the phonebook`);
-    } 
+    console.log('button clicked', event.target)
+    if (persons.find((person) => person.name.toUpperCase() === newName.toUpperCase())) {
+      alert(`${newName} is already in the phonebook`)
+    }
+
     else {
       const personObject = {
-        id: persons.length + 1,
-        name: newPerson,
+        name: newName,
         number: newNumber,
+        id: persons.length + 1
       }
       setPersons(persons.concat(personObject))
-      setNewPerson('')
+      setNewName('')
       setNewNumber('')
     }
   }
 
   const handleNameChange = (event) => {
     console.log(event.target.value)
-    setNewPerson(event.target.value)
+    setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
@@ -50,35 +51,34 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleSearchChange = (event) => {
-    console.log('Searching for:', event.target.value)
-    setSearch(event.target.value)
+  const handleFilterChange = (event) => {
+    console.log('searching for: ', event.target.value)
+    setFilter(event.target.value)
   }
 
-  const personsToShow = search
-  ? persons.filter((person) => 
-    person.name.toUpperCase().includes(search.toUpperCase()))
+  const personsToShow = filter
+  ? persons.filter((person) =>
+    person.name.toUpperCase().includes(filter.toUpperCase()))
   : persons;
 
   return (
-    <div>
-      <h2>Phonebook</h2>
-      <PersonForm
+    <>
+      <h1>Phonebook</h1>
+      <PersonForm 
         addPerson={addPerson}
-        newPerson={newPerson}
+        newName={newName}
         handleNameChange={handleNameChange}
         newNumber={newNumber}
-        handleNumberChange={handleNumberChange}
+        handleNumberChange={handleNumberChange} 
       />
-      <Search
-        search={search}
-        handleSearchChange={handleSearchChange}
+      <Persons 
+          personsToShow={personsToShow}
       />
-      <h2>Numbers</h2>
-      <Person 
-        personsToShow={personsToShow}
+      <Filter 
+        filter={filter} 
+        handleFilterChange={handleFilterChange}
       />
-    </div>
+    </>
   )
 }
 
