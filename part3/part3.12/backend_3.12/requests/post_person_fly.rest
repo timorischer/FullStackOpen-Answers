@@ -1,0 +1,33 @@
+POST https://backend-3-10.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "Test",
+    "number": "This is for testing"
+}
+###
+
+POST https://backend-3-10.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "number": "This is for testing"
+}
+###
+
+POST https://backend-3-10.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "Test"
+}
+###
+
+POST https://backend-3-10.fly.dev/api/persons
+Content-Type: application/json
+
+{
+    "name": "Arto hellas",
+    "number": "This is for testing"
+}
+###

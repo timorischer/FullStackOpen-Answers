@@ -1,0 +1,1 @@
+DELETE https://backend-3-10.fly.dev/api/persons/1
